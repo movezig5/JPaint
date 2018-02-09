@@ -5,6 +5,9 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.StartAndEndPointMode;
 import model.interfaces.IShape;
+import view.interfaces.IPaintCanvas;
+
+import java.awt.*;
 
 class Ellipse implements IShape {
 
@@ -13,21 +16,22 @@ class Ellipse implements IShape {
     private ShapeColor secondaryColor;
     private ShapeShadingType shadingType;
     private StartAndEndPointMode startAndEndPointMode;
-    private int x, y, width, height;
+    private Point startPoint, endPoint;
 
     Ellipse(
             ShapeColor primaryColor,
             ShapeColor secondaryColor,
             ShapeShadingType shadingType,
             StartAndEndPointMode startAndEndPointMode,
-            int x, int y, int width, int height
+            int startX, int startY, int endX, int endY
     ) {
         shapeType = ShapeType.ELLIPSE;
         this.primaryColor = primaryColor;
         this.secondaryColor = secondaryColor;
         this.shadingType = shadingType;
         this.startAndEndPointMode = startAndEndPointMode;
-        this.x = x; this.y = y; this.width = width; this.height = height;
+        startPoint = new Point(startX, startY);
+        endPoint = new Point(endX, endY);
     }
 
     Ellipse() {
@@ -36,7 +40,8 @@ class Ellipse implements IShape {
         secondaryColor = ShapeColor.BLACK;
         shadingType = ShapeShadingType.FILLED_IN;
         startAndEndPointMode = StartAndEndPointMode.SELECT;
-        x = 0; y = 0; width = 1; height = 1;
+        startPoint = new Point(0,0);
+        endPoint = new Point(0,0);
     }
 
     @Override
@@ -85,42 +90,31 @@ class Ellipse implements IShape {
     }
 
     @Override
-    public int getX() {
-        return x;
+    public Point getStartPoint() {
+        return startPoint;
     }
 
     @Override
-    public int getY() {
-        return y;
+    public Point getEndPoint() {
+        return endPoint;
     }
 
     @Override
-    public int getWidth() {
-        return width;
+    public void setStartPoint(Point startPoint) {
+        this.startPoint = startPoint;
     }
 
     @Override
-    public int getHeight() {
-        return height;
+    public void setEndPoint(Point endPoint) {
+        this.endPoint = endPoint;
     }
 
     @Override
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    @Override
-    public void setHeight(int height) {
-        this.height = height;
+    public void draw(IPaintCanvas canvas) {
+        int x = (int) startPoint.getX();
+        int y = (int) startPoint.getY();
+        int width = (int) endPoint.getX() - x;
+        int height = (int) endPoint.getY() - y;
+        canvas.getGraphics2D().drawOval(x, y, width, height);
     }
 }

@@ -9,6 +9,8 @@ import model.interfaces.IApplicationState;
 import model.interfaces.IDialogProvider;
 import view.interfaces.IUiModule;
 
+import javax.swing.plaf.IconUIResource;
+
 public class ApplicationState implements IApplicationState {
     private final IUiModule uiModule;
     private final IDialogProvider dialogProvider;
@@ -19,10 +21,26 @@ public class ApplicationState implements IApplicationState {
     private ShapeShadingType activeShapeShadingType;
     private StartAndEndPointMode activeStartAndEndPointMode;
 
-    public ApplicationState(IUiModule uiModule) {
+    private static ApplicationState instance;
+
+    private ApplicationState(IUiModule uiModule) {
         this.uiModule = uiModule;
         this.dialogProvider = new DialogProvider(this);
         setDefaults();
+    }
+
+    public static ApplicationState getInstance(IUiModule uiModule) {
+        if(instance == null)
+            instance = new ApplicationState(uiModule);
+        return instance;
+    }
+
+    public static ApplicationState getInstance() {
+        if(instance != null) {
+            return instance;
+        } else {
+            return null;
+        }
     }
 
     @Override

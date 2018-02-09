@@ -1,6 +1,7 @@
 package model.shapes;
 
 import model.interfaces.IShape;
+import model.persistence.ApplicationState;
 
 import java.security.InvalidParameterException;
 

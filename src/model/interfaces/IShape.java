@@ -4,6 +4,9 @@ import model.ShapeType;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.StartAndEndPointMode;
+import view.interfaces.IPaintCanvas;
+
+import java.awt.*;
 
 public interface IShape {
 
@@ -21,13 +24,11 @@ public interface IShape {
     StartAndEndPointMode getStartAndEndPointMode();
     void setStartAndEndPointMode(StartAndEndPointMode startAndEndPointMode);
 
-    int getX();
-    int getY();
-    int getWidth();
-    int getHeight();
-    void setX(int x);
-    void setY(int y);
-    void setWidth(int width);
-    void setHeight(int height);
+    Point getStartPoint();
+    Point getEndPoint();
 
+    void setStartPoint(Point startPoint);
+    void setEndPoint(Point endPoint);
+
+    void draw(IPaintCanvas canvas);
 }
