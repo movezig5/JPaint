@@ -1,6 +1,5 @@
 package view.gui;
 
-import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -9,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import controller.MouseHandler;
-import model.persistence.ApplicationState;
 import model.shapes.ShapeList;
 import view.interfaces.IGuiWindow;
 import view.EventName;
@@ -33,7 +31,7 @@ public class GuiWindow extends JFrame implements IGuiWindow {
         JPanel window = createWindow();
         this.canvas = canvas;
         canvas.addMouseListener(new MouseHandler());
-        ShapeList.getShapeList().registerObserver(canvas);
+        ShapeList.getInstance().registerObserver(canvas);
         window.add(canvas, BorderLayout.CENTER);
 		validate();
     }

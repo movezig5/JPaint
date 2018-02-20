@@ -5,6 +5,8 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.StartAndEndPointMode;
 import model.interfaces.IShape;
+import model.interfaces.IShapeStrategy;
+import model.strategies.TriangleStrategy;
 import view.interfaces.IPaintCanvas;
 
 import java.awt.*;
@@ -17,6 +19,7 @@ class Triangle implements IShape {
     private ShapeShadingType shadingType;
     private StartAndEndPointMode startAndEndPointMode;
     private Point startPoint, endPoint;
+    private IShapeStrategy strategy;
 
     Triangle(
         ShapeColor primaryColor,
@@ -32,6 +35,7 @@ class Triangle implements IShape {
         this.startAndEndPointMode = startAndEndPointMode;
         startPoint = new Point(startX, startY);
         endPoint = new Point(endX, endY);
+        strategy = new TriangleStrategy(this);
     }
 
     Triangle() {
@@ -42,6 +46,7 @@ class Triangle implements IShape {
         startAndEndPointMode = StartAndEndPointMode.SELECT;
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
+        strategy = new TriangleStrategy(this);
     }
 
     @Override
@@ -111,12 +116,6 @@ class Triangle implements IShape {
 
     @Override
     public void draw(IPaintCanvas canvas) {
-        int x = (int) startPoint.getX();
-        int y = (int) startPoint.getY();
-        int x2 = (int) endPoint.getX();
-        int y2 = (int) endPoint.getY();
-        int[] xs = {x, x2, x};
-        int[] ys = {y, y2, y2};
-        canvas.getGraphics2D().drawPolygon(xs, ys, 3);
+        strategy.draw(canvas);
     }
 }

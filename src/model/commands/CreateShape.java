@@ -11,7 +11,7 @@ import static model.shapes.ShapeFactory.createShape;
 import java.awt.*;
 import java.security.InvalidParameterException;
 
-import static model.shapes.ShapeList.getShapeList;
+import static model.shapes.ShapeList.getInstance;
 
 public class CreateShape implements ICommand {
     private Point startPoint, endPoint;
@@ -39,9 +39,32 @@ public class CreateShape implements ICommand {
             default:
                 throw new InvalidParameterException("Parameter must be an existing shape type.");
         }
+
+        // This part of the code allows the endpoint's X and Y coordinates
+        // to be less than the start point's X and Y coordinates, respectively.
+        double startX = startPoint.getX(),
+                endX = endPoint.getX(),
+                startY = startPoint.getY(),
+                endY = endPoint.getY();
+        boolean newPointsNeededed = false;
+        if(startX > endX) {
+            newPointsNeededed = true;
+            startX = endX;
+            endX = startPoint.getX();
+        }
+        if(startY > endY) {
+            newPointsNeededed = true;
+            startY = endY;
+            endY = startPoint.getY();
+        }
+        if(newPointsNeededed) {
+            startPoint.setLocation(startX, startY);
+            endPoint.setLocation(endX, endY);
+        }
+
         shape.setStartPoint(startPoint);
         shape.setEndPoint(endPoint);
-        if(state == null) { // This shouldn't happen, but I don't have a good solution for this
+        if(state == null) { // This shouldn't happen, but just to be safe...
             shape.setPrimaryColor(ShapeColor.BLACK);
             shape.setSecondaryColor(ShapeColor.BLACK);
             shape.setShadingType(ShapeShadingType.OUTLINE);
@@ -53,6 +76,6 @@ public class CreateShape implements ICommand {
             shape.setStartAndEndPointMode(state.getActiveStartAndEndPointMode());
         }
 
-        getShapeList().addShape(shape);
+        getInstance().addShape(shape); // The getInstance() method here is from ShapeList
     }
 }

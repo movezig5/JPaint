@@ -5,6 +5,8 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.StartAndEndPointMode;
 import model.interfaces.IShape;
+import model.interfaces.IShapeStrategy;
+import model.strategies.EllipseStrategy;
 import view.interfaces.IPaintCanvas;
 
 import java.awt.*;
@@ -17,6 +19,7 @@ class Ellipse implements IShape {
     private ShapeShadingType shadingType;
     private StartAndEndPointMode startAndEndPointMode;
     private Point startPoint, endPoint;
+    private IShapeStrategy strategy;
 
     Ellipse(
             ShapeColor primaryColor,
@@ -32,6 +35,7 @@ class Ellipse implements IShape {
         this.startAndEndPointMode = startAndEndPointMode;
         startPoint = new Point(startX, startY);
         endPoint = new Point(endX, endY);
+        strategy = new EllipseStrategy(this);
     }
 
     Ellipse() {
@@ -42,6 +46,7 @@ class Ellipse implements IShape {
         startAndEndPointMode = StartAndEndPointMode.SELECT;
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
+        strategy = new EllipseStrategy(this);
     }
 
     @Override
@@ -111,10 +116,6 @@ class Ellipse implements IShape {
 
     @Override
     public void draw(IPaintCanvas canvas) {
-        int x = (int) startPoint.getX();
-        int y = (int) startPoint.getY();
-        int width = (int) endPoint.getX() - x;
-        int height = (int) endPoint.getY() - y;
-        canvas.getGraphics2D().drawOval(x, y, width, height);
+        strategy.draw(canvas);
     }
 }

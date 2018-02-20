@@ -12,11 +12,11 @@ public class ShapeList implements ISubject{
     private static ShapeList shapeList;
 
     private ShapeList() {
-        shapes = new ArrayList<IShape>();
-        observers = new ArrayList<IObserver>();
+        shapes = new ArrayList<>();
+        observers = new ArrayList<>();
     }
 
-    public static ShapeList getShapeList() {
+    public static ShapeList getInstance() {
         if(shapeList == null) {
             shapeList = new ShapeList();
         }

@@ -16,6 +16,6 @@ public class PaintCanvas extends JComponent implements IPaintCanvas, IObserver {
 
     @Override
     public void update() {
-        ShapeList.getShapeList().getLatest().draw(this);
+        ShapeList.getInstance().getLatest().draw(this);
     }
 }
