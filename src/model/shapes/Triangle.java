@@ -6,7 +6,7 @@ import model.ShapeShadingType;
 import model.StartAndEndPointMode;
 import model.interfaces.IShape;
 import model.interfaces.IShapeStrategy;
-import model.strategies.TriangleStrategy;
+import model.strategies.ShapeStrategy;
 import view.interfaces.IPaintCanvas;
 
 import java.awt.*;
@@ -35,7 +35,7 @@ class Triangle implements IShape {
         this.startAndEndPointMode = startAndEndPointMode;
         startPoint = new Point(startX, startY);
         endPoint = new Point(endX, endY);
-        strategy = new TriangleStrategy(this);
+        strategy = new ShapeStrategy(this);
     }
 
     Triangle() {
@@ -46,7 +46,7 @@ class Triangle implements IShape {
         startAndEndPointMode = StartAndEndPointMode.SELECT;
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
-        strategy = new TriangleStrategy(this);
+        strategy = new ShapeStrategy(this);
     }
 
     @Override

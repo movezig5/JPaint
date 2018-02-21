@@ -6,7 +6,7 @@ import model.ShapeShadingType;
 import model.StartAndEndPointMode;
 import model.interfaces.IShape;
 import model.interfaces.IShapeStrategy;
-import model.strategies.RectangleStrategy;
+import model.strategies.ShapeStrategy;
 import view.interfaces.IPaintCanvas;
 
 import java.awt.*;
@@ -35,7 +35,7 @@ class Rectangle implements IShape {
         this.startAndEndPointMode = startAndEndPointMode;
         startPoint = new Point(startX, startY);
         endPoint = new Point(endX, endY);
-        strategy = new RectangleStrategy(this);
+        strategy = new ShapeStrategy(this);
     }
 
     Rectangle() {
@@ -46,7 +46,7 @@ class Rectangle implements IShape {
         startAndEndPointMode = StartAndEndPointMode.SELECT;
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
-        strategy = new RectangleStrategy(this);
+        strategy = new ShapeStrategy(this);
     }
 
     @Override
