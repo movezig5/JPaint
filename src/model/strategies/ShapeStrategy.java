@@ -3,7 +3,6 @@ package model.strategies;
 import model.ShapeColor;
 import model.interfaces.IShape;
 import model.interfaces.IShapeStrategy;
-import view.interfaces.IPaintCanvas;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -50,7 +49,7 @@ public class ShapeStrategy implements IShapeStrategy {
     }
 
     @Override
-    public void draw(IPaintCanvas canvas) {
+    public void draw(Graphics2D graphics2D) {
         int
                 x = (int) shape.getStartPoint().getX(),
                 y = (int) shape.getStartPoint().getY(),
@@ -58,7 +57,6 @@ public class ShapeStrategy implements IShapeStrategy {
                 y2 = (int) shape.getEndPoint().getY(),
                 width = x2 - x,
                 height = y2 - y;
-        Graphics2D graphics2D = canvas.getGraphics2D();
         Color primary = getJavaColor(shape.getPrimaryColor());
         Color secondary = getJavaColor(shape.getSecondaryColor());
         Shape drawnShape;
@@ -95,5 +93,10 @@ public class ShapeStrategy implements IShapeStrategy {
             default:
                 throw new Error("Invalid shading type");
         }
+        if(shape.isSelected()) {
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.drawRect(x, y, width, height);
+        }
+        graphics2D.dispose();
     }
 }

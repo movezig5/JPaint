@@ -4,6 +4,7 @@ import model.interfaces.IObserver;
 import model.interfaces.IShape;
 import model.interfaces.ISubject;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ShapeList implements ISubject{
@@ -23,12 +24,56 @@ public class ShapeList implements ISubject{
         return shapeList;
     }
 
-    public IShape getLatest() {
-        return shapes.get(shapes.size() - 1);
+    public ArrayList<IShape> getShapes() {
+        return shapes;
     }
 
     public void addShape(IShape s) {
         shapes.add(s);
+        notifyObservers();
+    }
+
+    public void selectShapes(int startX, int startY, int endX, int endY) {
+        for(IShape shape : shapes) {
+            int
+                    shapeStartX = (int) shape.getStartPoint().getX(),
+                    shapeStartY = (int) shape.getStartPoint().getY(),
+                    shapeEndX = (int) shape.getEndPoint().getX(),
+                    shapeEndY = (int) shape.getEndPoint().getY();
+
+            if(
+                    startX < shapeEndX && startY < shapeEndY &&
+                    endX > shapeStartX && endY > shapeStartY) {
+                shape.select();
+            } else {
+                shape.deselect();
+            }
+        }
+        notifyObservers();
+    }
+
+    public void moveShapes(int dx, int dy) {
+        for(IShape shape : shapes) {
+            if(shape.isSelected()) {
+                int
+                        startX = (int) shape.getStartPoint().getX() + dx,
+                        startY = (int) shape.getStartPoint().getY() + dy,
+                        endX = (int) shape.getEndPoint().getX() + dx,
+                        endY = (int) shape.getEndPoint().getY() + dy;
+
+                shape.setStartPoint(new Point(startX, startY));
+                shape.setEndPoint(new Point(endX, endY));
+            }
+        }
+        notifyObservers();
+    }
+
+    public void deleteShapes() {
+        for(int i = 0; i < shapes.size(); i++) {
+            if(shapes.get(i).isSelected()) {
+                shapes.remove(i);
+            }
+        }
         notifyObservers();
     }
 

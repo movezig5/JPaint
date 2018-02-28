@@ -3,8 +3,6 @@ package model.interfaces;
 import model.ShapeType;
 import model.ShapeColor;
 import model.ShapeShadingType;
-import model.StartAndEndPointMode;
-import view.interfaces.IPaintCanvas;
 
 import java.awt.*;
 
@@ -21,14 +19,15 @@ public interface IShape {
     ShapeShadingType getShadingType();
     void setShadingType(ShapeShadingType shadingType);
 
-    StartAndEndPointMode getStartAndEndPointMode();
-    void setStartAndEndPointMode(StartAndEndPointMode startAndEndPointMode);
-
     Point getStartPoint();
     Point getEndPoint();
 
     void setStartPoint(Point startPoint);
     void setEndPoint(Point endPoint);
 
-    void draw(IPaintCanvas canvas);
+    void draw(Graphics2D graphics2D);
+
+    void select();
+    void deselect();
+    boolean isSelected();
 }

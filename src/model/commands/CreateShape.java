@@ -2,7 +2,6 @@ package model.commands;
 
 import model.ShapeColor;
 import model.ShapeShadingType;
-import model.StartAndEndPointMode;
 import model.interfaces.ICommand;
 import model.interfaces.IShape;
 import model.persistence.ApplicationState;
@@ -68,12 +67,10 @@ public class CreateShape implements ICommand {
             shape.setPrimaryColor(ShapeColor.BLACK);
             shape.setSecondaryColor(ShapeColor.BLACK);
             shape.setShadingType(ShapeShadingType.OUTLINE);
-            shape.setStartAndEndPointMode(StartAndEndPointMode.DRAW);
         } else {
             shape.setPrimaryColor(state.getActivePrimaryColor());
             shape.setSecondaryColor(state.getActiveSecondaryColor());
             shape.setShadingType(state.getActiveShapeShadingType());
-            shape.setStartAndEndPointMode(state.getActiveStartAndEndPointMode());
         }
 
         getInstance().addShape(shape); // The getInstance() method here is from ShapeList

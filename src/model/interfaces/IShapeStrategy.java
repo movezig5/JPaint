@@ -1,7 +1,7 @@
 package model.interfaces;
 
-import view.interfaces.IPaintCanvas;
+import java.awt.*;
 
 public interface IShapeStrategy {
-    void draw(IPaintCanvas canvas);
+    void draw(Graphics2D graphics2D);
 }
