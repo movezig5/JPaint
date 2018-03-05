@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public class ShapeList implements ISubject{
     private ArrayList<IShape> shapes;
     private ArrayList<IObserver> observers;
+    private ArrayList<IShape> copiedShapes;
     private static ShapeList shapeList;
 
     private ShapeList() {
         shapes = new ArrayList<>();
         observers = new ArrayList<>();
+        copiedShapes = new ArrayList<>();
     }
 
     public static ShapeList getInstance() {
@@ -41,9 +43,10 @@ public class ShapeList implements ISubject{
                     shapeEndX = (int) shape.getEndPoint().getX(),
                     shapeEndY = (int) shape.getEndPoint().getY();
 
-            if(
-                    startX < shapeEndX && startY < shapeEndY &&
-                    endX > shapeStartX && endY > shapeStartY) {
+            if( // Currently it's only possible to select by dragging top-down, right to left.
+                    (startX < shapeEndX) && (startY < shapeEndY) &&
+                    (endX > shapeStartX) && (endY > shapeStartY)
+            ) {
                 shape.select();
             } else {
                 shape.deselect();
@@ -66,6 +69,29 @@ public class ShapeList implements ISubject{
             }
         }
         notifyObservers();
+    }
+
+    public void copyShapes() {
+        copiedShapes.clear();
+        for(IShape shape : shapes) {
+            if(shape.isSelected()) {
+                IShape copy = ShapeFactory.copyShape(shape);
+                copy.deselect();
+                int
+                        dx = (int) (copy.getEndPoint().getX() - copy.getStartPoint().getX()),
+                        dy = (int) (copy.getEndPoint().getY() - copy.getStartPoint().getY());
+                copy.getStartPoint().setLocation(0,0);
+                copy.getEndPoint().setLocation(dx, dy);
+                copiedShapes.add(copy);
+            }
+        }
+    }
+
+    public void pasteShapes() {
+        for(IShape shape : copiedShapes) {
+            shapes.add(shape);
+            notifyObservers();
+        }
     }
 
     public void deleteShapes() {

@@ -21,6 +21,8 @@ public class ApplicationState implements IApplicationState {
     private ShapeShadingType activeShapeShadingType;
     private StartAndEndPointMode activeStartAndEndPointMode;
 
+    // NOTE: I decided to put the "copied shape" in the ShapeList.
+
     private static ApplicationState instance;
 
     private ApplicationState(IUiModule uiModule) {
@@ -89,9 +91,7 @@ public class ApplicationState implements IApplicationState {
     }
 
     @Override
-    public StartAndEndPointMode getActiveStartAndEndPointMode() {
-        return activeStartAndEndPointMode;
-    }
+    public StartAndEndPointMode getActiveStartAndEndPointMode() { return activeStartAndEndPointMode; }
 
     private void setDefaults() {
         activeShapeType = ShapeType.ELLIPSE;
