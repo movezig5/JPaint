@@ -5,25 +5,34 @@ import model.ShapeShadingType;
 import model.interfaces.ICommand;
 import model.interfaces.IShape;
 import model.persistence.ApplicationState;
+import model.shapes.ShapeList;
+
 import static model.shapes.ShapeFactory.createShape;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
 
-import static model.shapes.ShapeList.getInstance;
-
 public class CreateShape implements ICommand {
     private Point startPoint, endPoint;
     private ApplicationState state;
+    private ShapeList shapeList;
+    private ShapeColor primaryColor;
+    private ShapeColor secondaryColor;
+    private ShapeShadingType shadingType;
+    private IShape shapeToAdd;
 
     public CreateShape(Point startPoint, Point endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
-        this.state = ApplicationState.getInstance();
+        state = ApplicationState.getInstance();
+        primaryColor = state.getActivePrimaryColor();
+        secondaryColor = state.getActiveSecondaryColor();
+        shadingType = state.getActiveShapeShadingType();
+        shapeList = ShapeList.getInstance();
+        shapeToAdd = initializeShape();
     }
 
-    @Override
-    public void run() {
+    private IShape initializeShape() {
         IShape shape;
         switch (state.getActiveShapeType()) {
             case TRIANGLE:
@@ -68,11 +77,20 @@ public class CreateShape implements ICommand {
             shape.setSecondaryColor(ShapeColor.BLACK);
             shape.setShadingType(ShapeShadingType.OUTLINE);
         } else {
-            shape.setPrimaryColor(state.getActivePrimaryColor());
-            shape.setSecondaryColor(state.getActiveSecondaryColor());
-            shape.setShadingType(state.getActiveShapeShadingType());
+            shape.setPrimaryColor(primaryColor);
+            shape.setSecondaryColor(secondaryColor);
+            shape.setShadingType(shadingType);
         }
+        return shape;
+    }
 
-        getInstance().addShape(shape); // The getInstance() method here is from ShapeList
+    @Override
+    public void execute() {
+        shapeList.addShape(shapeToAdd);
+    }
+
+    @Override
+    public void unexecute() {
+        shapeList.unAddShape();
     }
 }

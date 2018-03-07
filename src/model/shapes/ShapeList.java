@@ -35,24 +35,28 @@ public class ShapeList implements ISubject{
         notifyObservers();
     }
 
+    public void unAddShape() {
+        shapes.remove(shapes.size() - 1);
+        notifyObservers();
+    }
+
     public void selectShapes(int startX, int startY, int endX, int endY) {
-        for(IShape shape : shapes) {
+        for (IShape shape : shapes) {
             int
                     shapeStartX = (int) shape.getStartPoint().getX(),
                     shapeStartY = (int) shape.getStartPoint().getY(),
                     shapeEndX = (int) shape.getEndPoint().getX(),
                     shapeEndY = (int) shape.getEndPoint().getY();
 
-            if( // Currently it's only possible to select by dragging top-down, right to left.
+            if ( // Currently it's only possible to select by dragging top-down, right to left.
                     (startX < shapeEndX) && (startY < shapeEndY) &&
-                    (endX > shapeStartX) && (endY > shapeStartY)
-            ) {
+                            (endX > shapeStartX) && (endY > shapeStartY)
+                    ) {
                 shape.select();
             } else {
                 shape.deselect();
             }
         }
-        notifyObservers();
     }
 
     public void moveShapes(int dx, int dy) {
@@ -92,6 +96,10 @@ public class ShapeList implements ISubject{
             shapes.add(shape);
             notifyObservers();
         }
+    }
+
+    public ArrayList<IShape> getCopiedShapes() {
+        return copiedShapes;
     }
 
     public void deleteShapes() {
