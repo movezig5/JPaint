@@ -19,22 +19,6 @@ class Ellipse implements IShape {
     private IShapeStrategy strategy;
     private boolean isSelected;
 
-    Ellipse(
-            ShapeColor primaryColor,
-            ShapeColor secondaryColor,
-            ShapeShadingType shadingType,
-            int startX, int startY, int endX, int endY
-    ) {
-        shapeType = ShapeType.ELLIPSE;
-        this.primaryColor = primaryColor;
-        this.secondaryColor = secondaryColor;
-        this.shadingType = shadingType;
-        startPoint = new Point(startX, startY);
-        endPoint = new Point(endX, endY);
-        strategy = new ShapeStrategy(this);
-        isSelected = false;
-    }
-
     Ellipse() {
         shapeType = ShapeType.ELLIPSE;
         primaryColor = ShapeColor.BLACK;

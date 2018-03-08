@@ -19,22 +19,6 @@ class Rectangle implements IShape {
     private IShapeStrategy strategy;
     private boolean isSelected;
 
-    Rectangle(
-            ShapeColor primaryColor,
-            ShapeColor secondaryColor,
-            ShapeShadingType shadingType,
-            int startX, int startY, int endX, int endY
-    ) {
-        shapeType = ShapeType.RECTANGLE;
-        this.primaryColor = primaryColor;
-        this.secondaryColor = secondaryColor;
-        this.shadingType = shadingType;
-        startPoint = new Point(startX, startY);
-        endPoint = new Point(endX, endY);
-        strategy = new ShapeStrategy(this);
-        isSelected = false;
-    }
-
     Rectangle() {
         shapeType = ShapeType.RECTANGLE;
         primaryColor = ShapeColor.BLACK;

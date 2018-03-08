@@ -19,22 +19,6 @@ class Triangle implements IShape {
     private IShapeStrategy strategy;
     private boolean isSelected;
 
-    Triangle(
-        ShapeColor primaryColor,
-        ShapeColor secondaryColor,
-        ShapeShadingType shadingType,
-        int startX, int startY, int endX, int endY
-    ) {
-        shapeType = ShapeType.TRIANGLE;
-        this.primaryColor = primaryColor;
-        this.secondaryColor = secondaryColor;
-        this.shadingType = shadingType;
-        startPoint = new Point(startX, startY);
-        endPoint = new Point(endX, endY);
-        strategy = new ShapeStrategy(this);
-        isSelected = false;
-    }
-
     Triangle() {
         shapeType = ShapeType.TRIANGLE;
         primaryColor = ShapeColor.BLACK;
