@@ -6,8 +6,11 @@ import model.ShapeType;
 import model.StartAndEndPointMode;
 import model.dialogs.DialogProvider;
 import model.interfaces.IApplicationState;
+import model.interfaces.ICommand;
 import model.interfaces.IDialogProvider;
 import view.interfaces.IUiModule;
+
+import java.util.Stack;
 
 public class ApplicationState implements IApplicationState {
     private final IUiModule uiModule;
@@ -19,10 +22,31 @@ public class ApplicationState implements IApplicationState {
     private ShapeShadingType activeShapeShadingType;
     private StartAndEndPointMode activeStartAndEndPointMode;
 
-    public ApplicationState(IUiModule uiModule) {
+    private Stack<ICommand> commandHistory;
+    private Stack<ICommand> commandsUndone;
+
+    private static ApplicationState instance;
+
+    private ApplicationState(IUiModule uiModule) {
         this.uiModule = uiModule;
         this.dialogProvider = new DialogProvider(this);
+        this.commandHistory = new Stack<>();
+        this.commandsUndone = new Stack<>();
         setDefaults();
+    }
+
+    public static ApplicationState getInstance(IUiModule uiModule) {
+        if(instance == null)
+            instance = new ApplicationState(uiModule);
+        return instance;
+    }
+
+    public static ApplicationState getInstance() {
+        if(instance != null) {
+            return instance;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -71,8 +95,32 @@ public class ApplicationState implements IApplicationState {
     }
 
     @Override
-    public StartAndEndPointMode getActiveStartAndEndPointMode() {
-        return activeStartAndEndPointMode;
+    public StartAndEndPointMode getActiveStartAndEndPointMode() { return activeStartAndEndPointMode; }
+
+    @Override
+    public void executeCommand(ICommand command) {
+        command.execute();
+        commandHistory.push(command);
+        if(!commandsUndone.empty())
+            commandsUndone.removeAllElements();
+    }
+
+    @Override
+    public void undo() {
+        if(!commandHistory.empty()) {
+            ICommand command = commandHistory.pop();
+            command.unexecute();
+            commandsUndone.push(command);
+        }
+    }
+
+    @Override
+    public void redo() {
+        if(!commandsUndone.empty()) {
+            ICommand command = commandsUndone.pop();
+            command.execute();
+            commandHistory.push(command);
+        }
     }
 
     private void setDefaults() {

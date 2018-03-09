@@ -25,4 +25,10 @@ public interface IApplicationState {
     ShapeShadingType getActiveShapeShadingType();
 
     StartAndEndPointMode getActiveStartAndEndPointMode();
+
+    void executeCommand(ICommand command);
+
+    void undo();
+
+    void redo();
 }

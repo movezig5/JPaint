@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args){
         IGuiWindow guiWindow = new GuiWindow(new PaintCanvas());
         IUiModule uiModule = new Gui(guiWindow);
-        ApplicationState appState = new ApplicationState(uiModule);
+        ApplicationState appState = ApplicationState.getInstance(uiModule);
         IJPaintController controller = new JPaintController(uiModule, appState);
         controller.setup();
     }
